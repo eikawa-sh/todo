@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>タスク管理app</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}" />
+</head>
+
+<body>
+  <h1>タスク管理</h1>
+  {% if not todolist %}
+    <p>何も登録されていません。</p>
+  {% else %}
+    <p>タスク一覧</p>
+    <p>青→完了前　赤→完了済</p>
+  {% endif %}
+  <ul>
+    {% for item in todolist %}
+    <!--\<li {% if item.done %}style="color: lightgray"{% endif %}>-->
+    <li {% if item.done %}class="red"{{ item.title }}{% endif %}class="blue">{{ item.title }}
+      <a href="/updatedone/{{ item.item_id }}">[完了]</a>
+      <a href="/deleteitem/{{ item.item_id }}">[削除]</a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <form action="/additem" method="post" name="myform">
+    <p>
+      <input type="text" name="title">
+    </p>
+    <a href="javascript:document.myform.submit()" class="button">登録</a>
+    <a href="/deletealldoneitems" class="button">完了済みのタスクを全て削除</a>
+  </form>
+</body>
+
+</html>
